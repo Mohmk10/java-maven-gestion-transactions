@@ -1,0 +1,30 @@
+MLD – Gestion des Transactions (Maven)
+COMPTE (
+  id PK,
+  numero,
+  solde,
+  date_ouverture,
+  type
+)
+
+COMPTECHEQUE (
+  id_compte PK,
+  frais,
+  FK → COMPTE(id)
+)
+
+COMPTEEPARGNE (
+  id_compte PK,
+  date_debut,
+  duree,
+  FK → COMPTE(id)
+)
+
+TRANSACTION (
+  id PK,
+  montant,
+  date_transaction,
+  type,
+  compte_id,
+  FK → COMPTE(id)
+)
