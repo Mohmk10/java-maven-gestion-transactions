@@ -2,43 +2,126 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.gestion_transaction</groupId>
-    <artifactId>gestion_transaction</artifactId>
-    <version>1.0-SNAPSHOT</version>
+  <!-- ⚠️ Mets ici le namespace EXACT affiché dans le Central Portal (souvent io.github.<pseudo>) -->
+  <groupId>io.github.mohmk10</groupId>
+  <artifactId>gestion-transaction</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
 
-    <properties>
-        <maven.compiler.release>21</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+  <name>gestion-transaction</name>
+  <description>Lib d'exemple de gestion de transactions (publication Maven Central)</description>
+  <url>https://github.com/Mohmk10/gestion_transaction</url>
 
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
-    <dependencies>
-        <!-- Driver PostgreSQL -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.7.3</version>
-        </dependency>
-    </dependencies>
+  <developers>
+    <developer>
+      <id>Mohmk10</id>
+      <name>Mohamed M. Kouyaté</name>
+      <url>https://github.com/Mohmk10</url>
+    </developer>
+  </developers>
 
+  <scm>
+    <url>https://github.com/Mohmk10/gestion_transaction</url>
+    <connection>scm:git:https://github.com/Mohmk10/gestion_transaction.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/Mohmk10/gestion_transaction.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 
-    <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.11.0</version>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.2.5</version>
-          </plugin>
-        </plugins>
-    </build>
+  <properties>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.7.3</version>
+    </dependency>
+  </dependencies>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
+      </plugin>
 
+      <!-- sources.jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals><goal>jar</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- javadoc.jar (tolérant) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.6.3</version>
+        <configuration><failOnError>false</failOnError></configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals><goal>jar</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- signatures .asc -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>3.2.4</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals><goal>sign</goal></goals>
+          </execution>
+        </executions>
+        <configuration>
+          <!-- on force l'usage de TA clé -->
+          <keyname>BDAD78C9E33EF532C88ED50D82BAB4477F5CB2D1</keyname>
+          <gpgArguments>
+            <arg>--batch</arg><arg>--pinentry-mode</arg><arg>loopback</arg>
+          </gpgArguments>
+        </configuration>
+      </plugin>
+
+      <!-- Plugin Central : fabrique le bundle et l'upload -->
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.8.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+          Décommente si tu veux uploader manuellement via l'UI :
+          <skipPublishing>true</skipPublishing>
+          <!-- Ou publie tout seul :
+          <autoPublish>true</autoPublish>
+          <waitUntil>published</waitUntil>
+          -->
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
