@@ -1,4 +1,4 @@
-package com.gestion_transaction.repository;
+package com.gestion_transaction.repository.Impl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -13,6 +13,7 @@ import java.util.List;
 import com.gestion_transaction.entity.Compte;
 import com.gestion_transaction.entity.Transaction;
 import com.gestion_transaction.entity.TypeTransaction;
+import com.gestion_transaction.repository.TransactionRepository;
 import com.gestion_transaction.utils.Database;
 
 public class TransactionRepositoryImpl implements TransactionRepository{
